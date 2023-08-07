@@ -6,7 +6,7 @@ import { TasksController, UserController } from './controllers/index.js';
 import { createTasksValidation } from './validations/createTasks.js';
 import { checkAuth, handleValidationErrors } from './utils/index.js';
 mongoose.connect(
-	'mongodb+srv://kirillmiravov:Hipster2003@kanban.nxo5crz.mongodb.net/kanban?retryWrites=true&w=majority'
+	process.env.MONGODB_URI
 )
 	.then(() => console.log('DB ok'))
 	.catch((err) => console.log('DB error', err));
@@ -24,7 +24,7 @@ app.get('/auth/me', checkAuth, UserController.getMe);
 app.post('/tasks', checkAuth, createTasksValidation, handleValidationErrors, TasksController.create);
 app.get('/tasks', checkAuth, TasksController.getTasks);
 app.patch('/tasks', checkAuth, createTasksValidation, handleValidationErrors, TasksController.update);
-app.listen(4444, (err) => {
+app.listen(process.env.PORT || 4444, (err) => {
 	if (err) {
 		return console.log(err);
 	}
