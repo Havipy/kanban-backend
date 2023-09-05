@@ -10,7 +10,6 @@ export const registration = async (req, res) => {
 		const password = req.body.password;
 		const salt = await bcrypt.genSalt(10);
 		const hash = await bcrypt.hash(password, salt);
-
 		const doc = new UserModel({
 			email: req.body.email,
 			fullName: req.body.fullName,
@@ -18,10 +17,8 @@ export const registration = async (req, res) => {
 			passwordHash: hash,
 		})
 		const user = await doc.save();
-
 		const token = jwt.sign({
 			_id: user._id,
-
 		}, secret, {
 			expiresIn: '30d',
 		});
@@ -29,7 +26,7 @@ export const registration = async (req, res) => {
 		res.json({ ...userData, token })
 	}
 	catch (e) {
-		console.log(e)
+		(e)
 		res.status(500).json({
 			messege: 'Не удалось зарегестрироваться',
 		})
@@ -41,7 +38,6 @@ export const login = async (req, res) => {
 		if (!user) {
 			return res.status(404).json({
 				messege: 'Неверный логин или пароль'
-
 			})
 		}
 		const isValidPas = await bcrypt.compare(req.body.password, user._doc.passwordHash);
@@ -61,7 +57,7 @@ export const login = async (req, res) => {
 		res.json({ ...userData, token })
 	}
 	catch (e) {
-		console.log(e)
+		(e)
 		res.status(500).json({
 			messege: 'Не удалось авторизоваться',
 		})
@@ -76,12 +72,12 @@ export const getMe = async (req, res) => {
 
 			})
 		}
-		console.log(user)
+		(user)
 		const { passwordHash, ...userData } = user;
 		res.json({ ...userData })
 
 	}
 	catch (e) {
-		console.log(e)
+		(e)
 	}
 };

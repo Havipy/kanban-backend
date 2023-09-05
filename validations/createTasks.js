@@ -1,4 +1,4 @@
 import { body } from 'express-validator';
 export const createTasksValidation = [
-	body('tasks', 'Неверный формат задач').isArray()
+	body('title', 'Неверный формат заголовка').isString()
 ]
