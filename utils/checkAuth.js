@@ -9,7 +9,6 @@ export default (req, res, next) => {
 			next();
 		}
 		catch (e) {
-
 			return res.status(403).json({
 				messege: 'Нет доступа',
 			})

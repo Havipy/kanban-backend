@@ -6,7 +6,6 @@ import secret from '../config.js'
 
 export const registration = async (req, res) => {
 	try {
-
 		const password = req.body.password;
 		const salt = await bcrypt.genSalt(10);
 		const hash = await bcrypt.hash(password, salt);
@@ -72,12 +71,13 @@ export const getMe = async (req, res) => {
 
 			})
 		}
-		(user)
 		const { passwordHash, ...userData } = user;
 		res.json({ ...userData })
 
 	}
 	catch (e) {
-		(e)
+		res.status(500).json({
+			messege: 'Не удалось авторизоваться',
+		})
 	}
 };
