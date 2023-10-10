@@ -13,7 +13,6 @@ export const createTask = async (req, res) => {
 		res.json(task.getPublicFields());
 	}
 	catch (e) {
-		console.log(e);
 		res.status(500).json({
 			messege: 'Не удалось создать задачу'
 		});

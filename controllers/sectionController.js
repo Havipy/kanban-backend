@@ -80,11 +80,10 @@ export const removeSection = async (req, res) => {
 	try {
 		const sectionId = req.params.id;
 		const section = await SectionModel.findByIdAndDelete(sectionId);
-		section.tasksIds.forEach(async (taskId) => await TaskModel.deleteOne({ _id: taskId }))
+		section.tasksIds.forEach(async (taskId) => await TaskModel.deleteOne({ _id: taskId }));
 		res.json('success');
 	}
 	catch (e) {
-		console.log(e)
 		res.status(500).json({
 			messege: 'Не удалось удалить секцию'
 		})
