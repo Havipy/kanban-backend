@@ -12,7 +12,6 @@ export const registration = async (req, res) => {
 		const doc = new UserModel({
 			email: req.body.email,
 			fullName: req.body.fullName,
-			avatarUrl: req.body.avatarUrl,
 			passwordHash: hash,
 		})
 		const user = await doc.save();

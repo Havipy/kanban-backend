@@ -5,7 +5,7 @@ import BoardModel from "../models/Board.js";
 export const getOne = async (req, res) => {
 	try {
 		const boardId = req.params.boardId;
-		const board = await BoardModel.findById(boardId).select('title sectionIds');
+		const board = await BoardModel.findById(boardId).select('title sectionIds user');
 		const sections = await SectionModel.find({ board: boardId }).select('title tasksIds');
 		const tasks = await TaskModel.find({ board: boardId }).select('title description');;
 		res.json({ board, sections, tasks });
@@ -23,7 +23,7 @@ export const removeBoard = async (req, res) => {
 }
 export const getAll = async (req, res) => {
 	try {
-		const boards = await BoardModel.find({ user: req.userId });
+		const boards = await BoardModel.find({ user: req.userId }).select('title sectionIds user');;
 		res.json(boards);
 	}
 	catch (e) {
@@ -38,10 +38,11 @@ export const сreateBoard = async (req, res) => {
 		const board = await BoardModel.create({
 			title: req.body.title,
 			user: userId,
-		});
+		})
 		res.json(board);
 	}
 	catch (e) {
+		console.log(e);
 		res.status(500).json({
 			messege: 'Не удалось создать доску'
 		});

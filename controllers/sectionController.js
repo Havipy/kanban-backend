@@ -10,7 +10,7 @@ export const createSection = async (req, res) => {
 			board: boardId,
 		});
 		await BoardModel.findByIdAndUpdate(boardId, { $push: { sectionIds: section._id } });
-		res.json(section);
+		res.json(section.getPublicFields());
 	}
 	catch (e) {
 		res.status(500).json({
@@ -68,7 +68,7 @@ export const updateSectionTitle = async (req, res) => {
 		const section = await SectionModel.findByIdAndUpdate(
 			sectionId,
 			{ title: req.body.title }
-		)
+		).select('title tasksIds')
 		res.json(section)
 	} catch (err) {
 		res.status(500).json({
