@@ -5,9 +5,11 @@ import BoardModel from "../models/Board.js";
 export const getOne = async (req, res) => {
 	try {
 		const boardId = req.params.boardId;
+
 		const board = await BoardModel.findById(boardId).select('title sectionIds user');
 		const sections = await SectionModel.find({ board: boardId }).select('title tasksIds');
-		const tasks = await TaskModel.find({ board: boardId }).select('title description');;
+		const tasks = await TaskModel.find({ board: boardId }).select('title description');
+
 		res.json({ board, sections, tasks });
 	}
 	catch (e) {
@@ -17,9 +19,18 @@ export const getOne = async (req, res) => {
 	}
 }
 export const removeBoard = async (req, res) => {
-	const boardId = req.params.boardId;
-	await BoardModel.findByIdAndDelete(boardId);
-	res.json('success')
+	try {
+
+		const boardId = req.params.boardId;
+		await BoardModel.findByIdAndDelete(boardId);
+		res.json('success');
+
+	}
+	catch (e) {
+		res.status(500).json({
+			messege: 'Не удалось удалить доску'
+		});
+	}
 }
 export const getAll = async (req, res) => {
 	try {
@@ -28,21 +39,22 @@ export const getAll = async (req, res) => {
 	}
 	catch (e) {
 		res.status(500).json({
-			messege: 'Не удалось удалить доску'
+			messege: 'Не удалось получить все доски'
 		});
 	}
 }
 export const сreateBoard = async (req, res) => {
 	try {
 		const userId = req.userId;
+
 		const board = await BoardModel.create({
 			title: req.body.title,
 			user: userId,
-		})
+		});
+
 		res.json(board);
 	}
 	catch (e) {
-		console.log(e);
 		res.status(500).json({
 			messege: 'Не удалось создать доску'
 		});
@@ -53,7 +65,7 @@ export const reorderSections = async (req, res) => {
 		const boardId = req.params.boardId;
 		const newSectionIds = req.body.newSectionIds;
 		await BoardModel.findByIdAndUpdate(boardId, { sectionIds: newSectionIds });
-		res.json('success')
+		res.json('success');
 	}
 	catch (e) {
 		res.status(500).json({

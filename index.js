@@ -15,7 +15,7 @@ mongoose.connect(
 
 const app = express();
 app.use(express.json());
-app.use(cors())
+app.use(cors());
 
 app.post('/auth/reqistration', reqisterValidation, handleValidationErrors, UserController.registration);
 app.post('/auth/login', loginValidation, handleValidationErrors, UserController.login);

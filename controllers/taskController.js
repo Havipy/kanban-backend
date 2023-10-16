@@ -25,7 +25,8 @@ export const updateTask = async (req, res) => {
 		const task = await TaskModel.findByIdAndUpdate(
 			taskId,
 			{
-				title: req.body.title, description: req.body.description
+				title: req.body.title,
+				description: req.body.description
 			}).select('title description');
 		res.json(task.getPublicFields());
 	}
