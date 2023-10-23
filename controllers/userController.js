@@ -24,10 +24,9 @@ export const registration = async (req, res) => {
 		res.json({ ...userData, token })
 	}
 	catch (e) {
-		(e)
 		res.status(500).json({
 			messege: 'Не удалось зарегестрироваться',
-		})
+		});
 	}
 };
 export const login = async (req, res) => {
@@ -42,8 +41,7 @@ export const login = async (req, res) => {
 		if (!isValidPas) {
 			return res.status(400).json({
 				messege: 'Неверный логин или пароль'
-
-			})
+			});
 		}
 		const token = jwt.sign({
 			_id: user._id,
@@ -55,10 +53,9 @@ export const login = async (req, res) => {
 		res.json({ ...userData, token })
 	}
 	catch (e) {
-		(e)
 		res.status(500).json({
 			messege: 'Не удалось авторизоваться',
-		})
+		});
 	}
 };
 export const getMe = async (req, res) => {
